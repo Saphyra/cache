@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
@@ -18,9 +19,9 @@ public abstract class AbstractCache<K, T> {
 
     public abstract T get(K key);
 
-    protected T get(K key, Callable<T> callable){
+    protected Optional<T> get(K key, Callable<T> callable){
         try {
-            return cache.get(key, callable);
+            return Optional.ofNullable(cache.get(key, callable));
         } catch (ExecutionException e) {
             throw new RuntimeException(e);
         }
