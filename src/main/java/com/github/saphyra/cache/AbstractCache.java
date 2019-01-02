@@ -17,7 +17,7 @@ public abstract class AbstractCache<K, T> {
     @Setter
     protected Cache<K, T> cache = CacheBuilder.newBuilder().build();
 
-    public abstract T get(K key);
+    public abstract Optional<T> get(K key);
 
     protected Optional<T> get(K key, Callable<T> callable){
         try {
