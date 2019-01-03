@@ -19,9 +19,9 @@ public abstract class AbstractCache<K, T> {
 
     public abstract Optional<T> get(K key);
 
-    protected Optional<T> get(K key, Callable<T> callable){
+    protected Optional<T> get(K key, Callable<Optional<T>> callable) {
         try {
-            return cache.get(key, () -> Optional.ofNullable(callable.call()));
+            return cache.get(key, callable);
         } catch (ExecutionException e) {
             throw new RuntimeException(e);
         }

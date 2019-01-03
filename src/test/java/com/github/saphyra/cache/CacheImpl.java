@@ -11,6 +11,6 @@ public class CacheImpl extends AbstractCache<String, String> {
 
     @Override
     public Optional<String> get(String key) {
-        return get(key, () -> source.get());
+        return get(key, () -> Optional.ofNullable(source.get()));
     }
 }
