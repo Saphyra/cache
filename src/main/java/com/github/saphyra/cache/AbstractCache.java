@@ -15,13 +15,13 @@ import java.util.concurrent.ExecutionException;
 @NoArgsConstructor
 public abstract class AbstractCache<K, T> {
     @Setter
-    protected Cache<K, T> cache = CacheBuilder.newBuilder().build();
+    protected Cache<K, Optional<T>> cache = CacheBuilder.newBuilder().build();
 
     public abstract Optional<T> get(K key);
 
     protected Optional<T> get(K key, Callable<T> callable){
         try {
-            return Optional.ofNullable(cache.get(key, callable));
+            return cache.get(key, () -> Optional.ofNullable(callable.call()));
         } catch (ExecutionException e) {
             throw new RuntimeException(e);
         }
