@@ -30,4 +30,8 @@ public abstract class AbstractCache<K, T> {
     public void invalidate(K key) {
         cache.invalidate(key);
     }
+
+    public void clear() {
+        cache.invalidateAll();
+    }
 }
