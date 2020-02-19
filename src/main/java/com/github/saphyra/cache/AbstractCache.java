@@ -19,7 +19,7 @@ public abstract class AbstractCache<K, T> {
 
     protected abstract Optional<T> load(K key);
 
-    protected Optional<T> get(K key) {
+    public Optional<T> get(K key) {
         try {
             return cache.get(key, () -> load(key));
         } catch (ExecutionException e) {
