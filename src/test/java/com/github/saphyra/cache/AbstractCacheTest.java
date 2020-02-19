@@ -9,7 +9,10 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -18,27 +21,28 @@ public class AbstractCacheTest {
     private static final String KEY = "key";
     private static final String VALUE = "value";
     @Mock
-    private Supplier<String> source;
+    private Supplier<Optional<String>> source;
 
     @InjectMocks
     private CacheImpl underTest;
 
     @Test
-    public void testGetShouldCallSource(){
+    public void testGetShouldCallSource() {
         //GIVEN
-        when(source.get()).thenReturn(VALUE);
+        when(source.get()).thenReturn(Optional.of(VALUE));
         //WHEN
         Optional<String> result = underTest.get(KEY);
+        underTest.get(KEY);
         //THEN
-        verify(source).get();
+        verify(source, times(1)).get();
         assertTrue(result.isPresent());
         assertEquals(VALUE, result.get());
     }
 
     @Test
-    public void testGetShouldReturnEmptyOptionalWhenSourceReturnsNull(){
+    public void testGetShouldReturnEmptyOptionalWhenSourceReturnsNull() {
         //GIVEN
-        when(source.get()).thenReturn(null);
+        when(source.get()).thenReturn(Optional.empty());
         //WHEN
         Optional<String> result = underTest.get(KEY);
         //THEN

@@ -17,11 +17,11 @@ public abstract class AbstractCache<K, T> {
     @Setter
     protected Cache<K, Optional<T>> cache = CacheBuilder.newBuilder().build();
 
-    public abstract Optional<T> get(K key);
+    protected abstract Optional<T> load(K key);
 
-    protected Optional<T> get(K key, Callable<Optional<T>> callable) {
+    protected Optional<T> get(K key) {
         try {
-            return cache.get(key, callable);
+            return cache.get(key, () -> load(key));
         } catch (ExecutionException e) {
             throw new RuntimeException(e);
         }

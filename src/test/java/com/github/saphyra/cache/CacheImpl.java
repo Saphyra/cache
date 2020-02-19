@@ -7,10 +7,10 @@ import java.util.function.Supplier;
 
 @RequiredArgsConstructor
 public class CacheImpl extends AbstractCache<String, String> {
-    private final Supplier<String> source;
+    private final Supplier<Optional<String>> source;
 
     @Override
-    public Optional<String> get(String key) {
-        return get(key, () -> Optional.ofNullable(source.get()));
+    public Optional<String> load(String key) {
+        return source.get();
     }
 }
